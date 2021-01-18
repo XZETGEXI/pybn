@@ -466,7 +466,7 @@ class Node(object):
   def printNode(self):
     # print node
     commentNode = '\t\t<!-- create node "'+self.caption+'" -->\n'
-    initNode = '\t\t<cpt id="'+self.name+'" >\n'
+    initNode = '\t\t<cpt id="'+self.nodeId+'" >\n'
     commentOutcomes = '\t\t\t<!-- setting names of outcomes -->\n'
     initOutcomes = ''
     for outcome in self.outcomes:
@@ -477,7 +477,7 @@ class Node(object):
       commentArc = '\t\t\t<!-- add arcs -->\n'
       initArc = '\t\t\t<parents>'
       for connection in self.arcConnection:
-        initArc += connection[0]+' '
+        initArc += connection[1]+' '
       endArc =  '</parents>\n'
     else:
       commentArc = ''
@@ -495,7 +495,7 @@ class Node(object):
     return print_node
 
   def printExtension(self):
-    initExtensions = '\t\t\t<node id="'+self.name+'">\n'
+    initExtensions = '\t\t\t<node id="'+self.nodeId+'">\n'
     initName = '\t\t\t\t<name>'+self.caption+'</name>\n'
     initIcolor = '\t\t\t\t<interior color="'+self.interior_color+'" />\n'
     initOcolor = '\t\t\t\t<outline color="'+self.outline_color+'" />\n'
@@ -508,7 +508,7 @@ class Node(object):
     return initExtensions+initName+initIcolor+initOcolor+initFont+initPos+initBar+endExtensions
 
   def printProbabilities(self):
-    commentProbabilities = '// setting probabilities for "'+self.name+'"\ntheProbs.Flush();\n'
+    commentProbabilities = '// setting probabilities for "'+self.nodeId+'"\ntheProbs.Flush();\n'
     initProbabilities = 'theProbs.SetSize('+str(len(self.probability))+');\n'
     for i,probability in enumerate(self.probability):
       initProbabilities += 'theProbs['+str(i)+'] = '+str(probability)+';\n'
@@ -622,7 +622,7 @@ class Arc(object):
   def __init__(self, from_node, to_node):
     self.from_node = from_node
     self.to_node = to_node
-    self.to_node.addArcConnection(self.from_node.getName(),self.from_node.getIdNum(),self.from_node.getSize())
+    self.to_node.addArcConnection(self.from_node.getName(),self.from_node.getNodeId(),self.from_node.getSize())
 
   def __repr__(self):
     return self.name
